@@ -1,0 +1,2410 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--<html>-->
+<head>
+<meta charset="utf-8">
+<title>Twitter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="img/index.ico" />
+<link rel="stylesheet" href="css/cropbox.css" />
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/tanchu.css" />
+<script src="js/jquery-1.4.4.min.js"></script>
+<script src="js/jquery.reveal.js"></script>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.animate-colors-min.js"></script>
+<script src="js/easydialog.min.js"></script>
+<script src="js/autosize.min.js"></script>
+<script src="js/popup.js"></script>
+<script src="js/select.js"></script>
+	<script src="js/cropbox.js"></script>
+<!--	<link href="Content/css/imgFileupload.css" rel="stylesheet" />-->
+<!--	<script src="Content/js/jquery-1.8.3.min.js"></script>-->
+<!--	<script src="Content/js/imgFileupload.js"></script>-->
+<style>
+* {
+	margin: 0px;
+	padding: 0px;
+	font-family: "microsoft yahei";
+}
+
+body {
+	width: 1349px;
+	background-color: rgba(230, 236, 240, 1.00);
+	min-height: 650px;
+	height: 680px;
+}
+
+#loader {
+	background-color: rgba(255, 255, 255, 1.00);
+	width: 100%;
+	min-width: 1349px;
+	height: 46px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 99999999;
+	box-shadow: 0 0 5px #657786;
+}
+
+a {
+	text-decoration: none;
+}
+
+li {
+	list-style: none;
+}
+
+#logo {
+	background-color: rgba(255, 255, 255, 1.00);
+	height: 23px;
+	width: 23px;
+	position: fixed;
+	top: 12px;
+	left: 650px;
+	cursor: pointer;
+}
+
+.search {
+	width: 220px;
+	height: 30px;
+	border: 1px solid rgba(203, 203, 203, 1.00);
+	border-radius: 25px;
+	background-color: rgba(245, 248, 250, 1.00);
+	padding-right: 30px;
+	padding-left: 15px;
+	line-height: 30px;
+	font-size: 12px;
+}
+
+#search {
+	width: 300px;
+	height: 30px;
+	margin-left: 870px;
+	margin-top: -45px;
+}
+
+.sea {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	float: left;
+	position: relative;
+	top: 7px;
+	left: 210px;
+	background-color: rgba(245, 248, 250, 1.00);
+}
+
+#daohang {
+	width: 300px;
+	height: 38px;
+	margin-left: 80px;
+	margin-top: 5px;
+}
+
+#daohang li {
+	float: left;
+	width: 80px;
+	height: 42px;
+	padding: 0 15px;
+	line-height: 43px;
+	cursor: pointer;
+	font-size: 15px;
+	color: rgba(102, 107, 117, 1.00);
+}
+
+.bian {
+	margin-left: 5px;
+	position: relative;
+	top: -1px;
+}
+
+#touxiang {
+	border-radius: 25px;
+	position: absolute;
+	right: 193px;
+	top: 7px;
+}
+
+.button {
+	position: absolute;
+	right: 90px;
+	top: 7px;
+	width: 81px;
+	height: 32px;
+	border: none;
+	color: white;
+	border-radius: 3px;
+	box-shadow: 0 1px 0 #ccc;
+	right: 90px;
+	top: 7px;
+	top: 7px;
+}
+
+.fa {
+	font-size: 15px;
+	position: relative;
+	top: -6px;
+	left: -2px;
+}
+
+.edit {
+	font-size: 23px;
+	position: relative;
+	top: -1px;
+	left: -4px;
+}
+
+#listlist {
+	width: 180px;
+	height: 360px;
+	position: fixed;
+	top: 51px;
+	right: 185px;
+	border-radius: 3px;
+	box-shadow: 0 0 2.5px lightslategray;
+	z-index: auto;
+	background-color: white;
+}
+
+#list {
+	display: none;
+	width: 120px;
+	height: 270px;
+	z-index: auto;
+}
+
+.triangle {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	line-height: 0;
+	z-index: 10;
+}
+
+.xia {
+	border: 4px solid transparent;
+	border-top-color: aliceblue;
+	border-bottom-width: 0;
+}
+
+.shang {
+	border: 10px solid transparent;
+	border-bottom-color: white;
+	border-top-width: 0;
+	filter: drop-shadow(.5px -.5px .5px lightslategray);
+}
+
+.ss {
+	position: fixed;
+	top: 41px;
+	right: 200px;
+	z-index: 6;
+}
+
+#body {
+	width: 1180px;
+	height: auto;
+	margin: 60px 80px 40px;
+	float: left;
+}
+
+#bodydetail {
+	width: 100%;
+	height: auto;
+}
+
+#detail {
+	width: 290px;
+	height: 230px;
+	background-color: white;
+	border-radius: 3px;
+	float: left;
+	cursor: pointer;
+	position: absolute;
+	box-shadow: 0 0 0.5px #e6ecf0;
+}
+
+#bg {
+	width: 290px;
+	height: 100px;
+	background-color: white;
+	border-radius: 3px 3px 0 0;
+	text-align: center;
+	line-height: 100px;
+}
+
+#second {
+	width: 590px;
+	height: auto;
+	position: absolute;
+	left: 380px;
+	border-radius: 3px;
+}
+
+#send {
+	width: 590px;
+	height: auto;
+	margin-bottom: 10px;
+	background-color: rgba(232, 245, 253, 1);
+	box-shadow: 0 0 0.5px #e6ecf0;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+#sends {
+	width: 590px;
+	height: auto;
+	z-index: 8;
+	min-height: 170px;
+}
+
+.tuiwen {
+	width: 590px;
+	height: auto;
+	background-color: white;
+	cursor: pointer;
+	box-shadow: 0 0 .5px #e6ecf0;
+	margin-top: -9px;
+}
+
+#content {
+	width: 590px;
+	height: auto;
+}
+
+#third {
+	width: 240px;
+	height: auto;
+	position: absolute;
+	left: 980px;
+}
+
+#tuijian {
+	width: 280px;
+	height: 280px;
+	border-radius: 3px;
+	background-color: white;
+	box-shadow: 0 0 0.5px #e6ecf0;
+}
+
+#link {
+	width: 280px;
+	height: 100px;
+	border-radius: 3px;
+	background-color: white;
+	margin-top: 10px;
+	position: absolute;
+	box-shadow: 0 0 0.5px #e6ecf0;
+}
+
+#lianjie {
+	width: 270px;
+	height: 60px;
+	margin: 20px 10px;
+	float: left;
+}
+
+#lianjie li {
+	float: left;
+	margin-right: 9px;
+	font-size: 13px;
+	color: #657786;
+	cursor: pointer;
+	height: 20px;
+}
+
+.listd {
+	padding: 4px 0 3px 20px;
+	font-size: 15px;
+	color: black;
+	margin: 5px 0;
+	cursor: pointer;
+}
+
+hr {
+	margin: 5px 0;
+}
+
+.touxiang {
+	width: 32px;
+	height: 32px;
+	border: 1px solid white;
+	background-size: 31px 31px;
+	cursor: pointer;
+}
+
+#user_tou {
+	border-radius: 5px;
+	position: relative;
+	top: 12px;
+	left: 25px;
+}
+
+#user_tou_xiang {
+	background-size: 80px 80px;
+	border-radius: 5px;
+	width: 80px;
+	height: 80px;
+	position: relative;
+	top: -40px;
+	left: 15px;
+	background-color: white;
+}
+
+#user_tou_xiang img {
+	width: 150px;
+	height: 150px;
+	position: relative;
+	top: -35px;
+	left: -35px;
+}
+
+.tweet {
+	width: 500px;
+	height: auto;
+	float: left;
+	position: relative;
+	top: -20px;
+	left: 70px;
+}
+
+.wen {
+	width: 480px;
+	border-radius: 5px;
+	border: 0px solid gray;
+	z-index: 8;
+	margin: 10px 0 10px 10px;
+}
+
+textarea {
+	resize: none;
+	overflow-y: auto;
+	width: 100%;
+	min-height: 80px;
+	border-style: hidden;
+}
+
+.thing {
+	width: 300px;
+	height: 30px;
+	position: relative;
+	top: -60px;
+	left: 70px;
+	z-index: 7;
+}
+
+.addThing {
+	width: 40px;
+	height: 40px;
+	font-size: 24px;
+	cursor: pointer;
+	padding: 8px;
+	margin-right: 2px;
+	position: relative;
+	top: 50px;
+}
+
+.but {
+	width: 80px;
+	height: 40px;
+	position: relative;
+	left: 235px;
+	top: 45px;
+}
+
+.zishu {
+	position: relative;
+	left: 445px;
+	top: 2px;
+	color: #657786;
+	width: 50px;
+	height: 30px;
+	font-size: 16px;
+	font-style: oblique;
+}
+
+.zishu_lu {
+	position: relative;
+	left: 455px;
+	top: 55px;
+	color: #657786;
+}
+
+.but_lu {
+	position: relative;
+	left: 290px;
+	top: 80px;
+}
+
+.add {
+	position: relative;
+	top: -40px;
+	left: 25px;
+}
+
+.addx {
+	position: relative;
+	top: 90px;
+}
+
+#username {
+	position: relative;
+	top: -75px;
+	left: 105px;
+	font-size: 18px;
+	color: black;
+	width: auto;
+	max-width: 150px;
+	min-width: 50px;
+}
+
+#aite {
+	width: auto;
+	position: relative;
+	top: -75px;
+	left: 105px;
+	font-size: 15px;
+	color: #657786;
+	width: 120px;
+}
+
+.zd {
+	width: 280px;
+}
+
+#ziliao {
+	position: relative;
+	top: -70px;
+	left: 16px;
+	color: #657786;
+	width: 400px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.zliao {
+	width: 80px;
+	height: 20px;
+	float: left;
+}
+
+#data {
+	position: relative;
+	top: -70px;
+	left: 15px;
+	color: #657786;
+}
+
+.dt {
+	width: 80px;
+	font-size: 17px;
+	font-weight: bold;
+	float: left;
+}
+
+.guanzhu {
+	font-size: 20px;
+	color: gray;
+	position: absolute;
+	top: 10px;
+	left: 20px;
+}
+
+.guanzhu_info {
+	width: 240px;
+	height: 205px;
+	position: absolute;
+	top: 45px;
+	left: 10px;
+}
+
+.tuijian_info {
+	width: 240px;
+	height: 60px;
+	padding-left: 20px;
+	z-index: 8;
+	padding-left: 20px;
+}
+
+.tuijian_touxiang {
+	background-size: 50px 50px;
+	width: 50px;
+	height: 50px;
+	margin: 5px;
+	float: left;
+	background-color: white;
+	float: left;
+	cursor: pointer;
+	border-radius: 3px;
+}
+
+.tuijian_name {
+	float: left;
+	color: black;
+	font-size: 16px;
+	font-weight: bold;
+	height: 20px;
+	max-width: 65px;
+	margin-left: 8px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.tuijian_aite {
+	float: left;
+	font-size: 14px;
+	margin-left: 5px;
+	color: gray;
+	height: 20px;
+	width: auto;
+	max-width: 80px;
+	word-wrap: break-word;
+	word-break: break-all;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.guanzhu_btn {
+	position: relative;
+	top: 3px;
+	left: 0px;
+	width: 81px;
+	height: 32px;
+}
+
+#back {
+	width: 590px;
+	height: 60px;
+	display: none;
+	background-color: white;
+	box-shadow: 0 0 .5px #e6ecf0;
+	cursor: pointer;
+	margin-top: 1.5px;
+}
+
+#back img {
+	margin-left: 276px;
+	margin-top: 10px;
+	width: 24px;
+	height: 24px;
+	width: 24px;
+}
+
+#tixing {
+	width: 590px;
+	height: 40px;
+	cursor: pointer;
+	background-color: rgb(245, 248, 250);
+	margin-top: -9px;
+	margin-bottom: 9px;
+	display: none;
+}
+
+.tweet {
+	height: auto;
+	border-radius: 5px;
+	background-color: white;
+}
+
+.ttt {
+	position: relative;
+	top: 30px;
+	left: 20px;
+	width: 560px;
+	color: powderblue;
+}
+
+.sender_tou_xiang {
+	background-size: 60px 60px;
+	border-radius: 5px;
+	width: 60px;
+	height: 60px;
+	position: relative;
+	top: 10px;
+	left: 10px;
+	border: 1px solid white;
+}
+
+.sender_info {
+	width: 500px;
+	height: auto;
+	position: relative;
+	left: 80px;
+	top: -50px;
+}
+
+.sender_name {
+	max-width: 200px;
+	float: left;
+	width: auto;
+	margin-right: 5px;
+	font-size: 16px;
+	font-weight: bold;
+	height: 20px;
+	line-height: 20px;
+	color: black;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	float: left;
+}
+
+.sender_aite {
+	max-width: 200px;
+	float: left;
+	width: auto;
+	margin-right: 5px;
+	font-size: 15px;
+	color: #657786;
+	height: 20px;
+	line-height: 20px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	float: left;
+}
+
+.sender_time {
+	font-size: 15px;
+	color: #657786;
+	height: 20px;
+	line-height: 20px;
+	width: 340px;
+}
+
+.neirong {
+	width: 500px;
+	height: auto;
+	margin-top: 5px;
+	font-size: 15px;
+	color: black;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+.sender_gongneng {
+	width: 500px;
+	position: relative;
+	top: 10px;
+}
+
+.sender_gongneng ul li {
+	float: left;
+	width: 80px;
+	height: 20px;
+	line-height: 20px;
+}
+
+.sender_gongneng ul li div {
+	font-size: 16px;
+	color: #657786;
+}
+
+.sender_gongneng ul li div span {
+	font-size: 13px;
+	color: #657786;
+	height: 20px;
+	line-height: 20px;
+	position: relative;
+	top: -2px;
+	left: -7px;
+}
+
+.sender_pic {
+	width: 100%;
+	max-height: 400px;
+	border-radius: 5px;
+}
+
+.sender_pic img {
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	max-height: 300px;
+	margin: 10px 0px;
+	border-radius: 5px;
+}
+
+#pic {
+	position: absolute;
+	top: -999px;
+}
+
+#pics {
+	width: 200px;
+	height: 200px;
+	background-color: white;
+	position: absolute;
+	z-index: 9;
+	background-size: 200px 200px;
+	text-align: center;
+	line-height: 200px;
+	box-shadow: 0 0 0.5px #657786;
+	margin-top: -28px;
+	border-radius: 5px;
+	display: none;
+}
+
+#pics img {
+	height: 180px;
+	max-width: 200px;
+	padding: 1px;
+	border-radius: 5px;
+	line-height: 200px;
+	margin-top: 10px;
+	cursor: pointer;
+}
+
+#picha {
+	position: absolute;
+	left: 205px;
+	margin-top: -30px;
+	font-size: 28px;
+	display: none;
+	cursor: pointer;
+}
+
+#changepic {
+	position: relative;
+	top: -100px;
+}
+
+.ts {
+	position: relative;
+	z-index: 9;
+	top: -28px;
+	left: 80px;
+	display: none;
+	top: -28px;
+}
+
+.meiyou {
+	font-size: 25px;
+	margin-left: 50px;
+	padding-top: 50px;
+}
+
+.kongkong {
+	width: 465px;
+	font-size: 15px;
+	margin-left: 50px;
+	padding-top: 10px;
+	color: gray;
+}
+
+#seluser {
+	margin: 30px 0px 50px 50px;
+	padding: 10px;
+	border: 1px solid white;
+	border-radius: 5px;
+	font-weight: bold;
+	padding: 10px;
+}
+
+.sier {
+	width: 600px;
+	height: auto;
+}
+
+.tuiwencha {
+	position: absolute;
+	right: 5px;
+	top: 0px;
+	color: #657786;
+}
+
+.deltuiwen {
+	position: absolute;
+	right: -30px;
+	top: 17px;
+	width: 100px;
+	height: 30px;
+	border: 1px solid gray;
+	background-color: white;
+	box-shadow: 0 0 1px lightgray;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 5px;
+	z-index: 5;
+	display: none;
+	height: 30px;
+}
+
+#mask_shadow {
+	display: none;
+	opacity: 0;
+	position: fixed;
+	z-index: 98;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .9);
+}
+
+#popup {
+	display: none;
+	opacity: 0;
+	position: absolute;
+	z-index: 99;
+	top: 80px;
+	width: 600px;
+	height: auto;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+#popup .title {
+	position: relative;
+	width: 100%;
+	height: 45px;
+	background-color: white;
+	cursor: move;
+	border-radius: 5px 5px 0 0;
+	margin-bottom: -10px;
+}
+
+#popup .title p {
+	padding-left: 14px;
+	line-height: 55px;
+	color: gray;
+	text-align: center;
+	font-size: 17px;
+}
+
+#popup .title span {
+	position: absolute;
+	top: 12px;
+	right: 20px;
+	width: 30px;
+	height: 30px;
+	color: #000;
+	opacity: .2;
+	font-size: 21px;
+	cursor: pointer;
+	text-align: center;
+	border-radius: 5px;
+}
+
+#popup .title span:hover {
+	opacity: .8;
+}
+
+#popup .cont {
+	width: 100%;
+	height: auto;
+	background-color: rgba(232, 245, 253, 1);
+	border-radius: 0 0 5px 5px;
+	min-height: 210px;
+}
+
+#jiazai {
+	width: 590px;
+	height: 40px;
+	background-color: white;
+	line-height: 40px;
+	font-size: 15px;
+	color: black;
+	display: none;
+	box-shadow: 0 0 0.5px #e6ecf0;
+	margin-top: -9px;
+}
+
+#jiazai img {
+	margin-left: 28px;
+	display: none;
+	margin-top: 10px;
+}
+</style>
+<style>
+.usersinfo {
+	width: 300px;
+	height: auto;
+	max-height: 350px;
+	min-height: 200px;
+	background-color: white;
+	border-radius: 5px;
+	position: absolute;
+	z-index: 999;
+	max-height: 350px;
+	background-color: white;
+}
+
+.usersinfotouxiang {
+	margin-top: 69px;
+	margin-left: -100px;
+}
+
+.usersinfoname {
+	margin-top: 35px;
+	margin-left: -45px;
+}
+
+.bg {
+	width: 300px;
+	height: 100px;
+	border-radius: 5px 5px 0 0px;
+	background-size: 280px 100px;
+	cursor: pointer;
+	z-index: 999;
+}
+
+.waiyuan {
+	width: 80px;
+	height: 80px;
+	border-radius: 50px;
+	position: relative;
+	top: -40px;
+	left: 20px;
+	background-color: white;
+	z-index: 1000;
+}
+
+.yuantouxiang {
+	width: 70px;
+	height: 70px;
+	border-radius: 50px;
+	background-color: red;
+	position: relative;
+	top: 5px;
+	left: 5px;
+	z-index: 1000;
+	cursor: pointer;
+}
+
+.guanzhuta {
+	width: 100px;
+	height: 25px;
+	border-radius: 5px;
+	background-color: white;
+	font-size: 14px;
+	font-weight: bold;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+.waiguanzhu {
+	width: 90px;
+	height: 25px;
+	border-radius: 50px;
+	background-color: white;
+	font-size: 14px;
+	font-weight: bold;
+	position: relative;
+	left: 160px;
+	top: -65px;
+	z-index: 1000;
+}
+
+.realname {
+	font-size: 18px;
+	font-weight: bold;
+	color: black;
+	margin-left: 25px;
+	margin-top: -60px;
+	height: 25px;
+	cursor: pointer;
+	z-index: 1000;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.uaite {
+	height: 20px;
+	font-size: 15px;
+	color: rgb(102, 117, 171);
+	margin-left: 25px;
+	cursor: pointer;
+	z-index: 1000;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.jianjie {
+	width: 250px;
+	height: auto;
+	margin-left: 25px;
+	margin-top: 10px;
+	color: black;
+	font-size: 13px;
+	word-wrap: break-word;
+	word-break: break-all;
+	cursor: pointer;
+	z-index: 1000;
+	max-height: 70px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.guanzhuxiangqing {
+	margin-left: 5px;
+	position: relative;
+	bottom: 15px;
+	margin-top: 15px;
+}
+
+.guanzhuxiangqing span {
+	margin-left: 20px;
+	margin-top: 15px;
+	font-size: 15px;
+	font-weight: bold;
+	color: #657786;
+	font-size: 15px
+}
+
+#tongzhi {
+	width: 480px;
+	height: 50px;
+	background-color: white;
+	position: fixed;
+	top: 47px;
+	left: 430px;
+	z-index: 9999999;
+	border-radius: 3px;
+	box-shadow: 0 0 2px #657786;
+	text-align: center;
+	color: black;
+	box-shadow: 0 0 2px gray;
+	line-height: 47px;
+	display: none;
+}
+
+#xiugaitouxiang {
+	width: 180px;
+	height: 60px;
+	background-color: white;
+	box-shadow: 0 0 .5px #657786;
+	position: absolute;
+	left: -30px;
+	top: 150px;
+	z-index: 999;
+	border-radius: 3px;
+	display: none;
+}
+
+#xiugaitouxiang div {
+	width: 180px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	font-size: 15px;
+	color: black;
+}
+
+#xiugaishang {
+	position: absolute;
+	left: 45px;
+	top: 140px;
+	display: none;
+}
+
+#souxianshi {
+	width: 330px;
+	height: auto;
+	background-color: white;
+	box-shadow: 0 0 1.5px #657786;
+	position: fixed;
+	top: 49px;
+	left: 885px;
+	border-radius: 3px;
+	display: none;
+}
+
+#souxianshishang {
+	position: fixed;
+	left: 905px;
+	z-index: 9;
+	margin-top: 1px;
+	display: none;
+}
+
+.souneirong {
+	width: 330px;
+	height: 50px;
+	line-height: 50px;
+	cursor: pointer;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 330px;
+}
+
+.soumingzi {
+	float: left;
+	font-weight: bold;
+	font-size: 16px;
+	color: black;
+	margin-left: 10px;
+	min-width: 35px;
+	max-width: 200px;
+	margin-right: 6px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.soutouxiang {
+	float: left;
+}
+
+.soutouxiang img {
+	width: 30px;
+	height: 30px;
+	border-radius: 50px;
+	margin-top: 10px;
+	margin-left: 20px;
+}
+
+.sousouaite {
+	height: 50px;
+	min-width: 50px;
+	max-width: 200px;
+	font-size: 14px;
+	color: rgb(101, 119, 134);
+	margin-left: 5px;
+	max-width: 200px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tishidian {
+	position: fixed;
+	width: 7px;
+	height: 7px;
+	border-radius: 50px;
+	top: 13px;
+	margin-left: -9px;
+	display: none;
+}
+
+.buchongziliao {
+	position: absolute;
+	top: 310px;
+	width: 290px;
+	min-height: 150px;
+	height: auto;
+	background-color: white;
+	border-radius: 3px;
+	box-shadow: 0 0 0.5px #e6ecf0;
+	background-color: white;
+	z-index: 2;
+	display: none;
+}
+
+.buchongshang {
+	position: relative;
+	top: -10px;
+	left: 15px;
+	z-index: 1;
+}
+
+#date select {
+	padding: 2px;
+	border-radius: 5px;
+	outline: none;
+	border: 1px solid rgb(164, 217, 249);
+	height: 30px;
+	margin-right: 5px;
+}
+
+#notification {
+	min-width: 15px;
+	width: auto;
+	height: 15px;
+	margin-left: 5px;
+}
+
+#tongzhigeshu {
+	font-size: 12px;
+	height: 15px;
+	position: relative;
+	top: -14px;
+	left: 4px;
+	width: auto;
+	color: white;
+	position: relative;
+}
+
+.huifudename {
+	float: left;
+	font-size: 16px;
+	color: black;
+	font-weight: bold;
+	height: 30px;
+	line-height: 30px;
+	margin-right: 5px;
+}
+
+.huifudeaite {
+	float: left;
+	color: #657786;
+	height: 30px;
+	line-height: 30px;
+	font-size: 15px;
+	margin-right: 5px;
+}
+
+.huifudeshijian {
+	color: #657786;
+	height: 30px;
+	line-height: 30px;
+	font-size: 15px;
+	margin-left: 5px;
+}
+
+.huifudeduixiang {
+	color: #657786;
+	height: 30px;
+	line-height: 30px;
+	font-size: 15px;
+}
+
+.huifudexiaoxi {
+	color: black;
+	font-size: 15px;
+	padding-bottom: 20px;
+	max-width: 480px;
+	height: auto;
+	word-wrap: break-word;
+	word-break: break-all;
+	margin-left: 60px;
+}
+</style>
+	<style>
+		ul{
+			height:100%;
+			list-style-type:none;
+		}
+
+		li{
+			line-height:40px;
+			float:left;
+		}
+		.page_btn{
+			border-radius:4px;
+			border:1px solid #e5e9ef;
+			background:#fff;
+			margin-right:10px;
+			text-align:center;
+			width:38px;
+			height:38px;
+			line-height: 8px;
+			margin-top:6px;
+			outline:0;
+		}
+
+		.page_btn:hover{
+			border:1px solid #4f90fb;
+			color:#4f90fb;
+		}
+
+		span.pages_span{
+			margin-right:10px;
+			width:38px;
+			height:38px;
+			position:relative;
+			top:10px;
+		}
+	</style>
+</head>
+<body>
+	<div id="tongzhi"></div>
+	<div th:insert="conmont::loader"></div>
+	<div id="body">
+		<div id="bodydetail">
+			<div id="detail">
+				<div id="bg"></div>
+					<div class="touxiang" id="user_tou_xiang" th:if="${info.ulogo}!='default_profile_normal.png'">
+					</div>
+					<div class="touxiang" id="user_tou_xiang" th:if="${info.ulogo}=='default_profile_normal.png'">
+						<img src="img/owner_empty_avatar.png" />
+					</div>
+				<div class="triangle shang " id="xiugaishang"></div>
+				<div id="xiugaitouxiang">
+					<div class="big-link" data-reveal-id="xiugailogo"
+						data-animation="fade" id="shangchuantouxiang">上传头像</div>
+					<div id="quxiaoxiugai">取消</div>
+				</div>
+				<a><div id="username" style="font-weight: bold;">[[${user.uemail}]]</div></a>
+				<div id="aite">
+					用户名:@<span class="aite">[[${user.uaite}]]</span>
+				</div>
+				<div id="ziliao">
+					<ul class="zd">
+						<li class="zliao">推文</li>
+						<li class="zliao">正在关注</li>
+						<li class="zliao" style="margin-left: 20px">关注者</li>
+					</ul>
+				</div>
+				<div id="data">
+					<ul class="zd">
+						<li class="dt" id="tweetnum">[[${info.utweet}]]</li>
+						<li class="dt">[[${info.ufollow}]]</li>
+						<li class="dt" style="margin-left: 20px">[[${info.ufans}]]</li>
+					</ul>
+				</div>
+			</div>
+			<!-- 修改头像 -->
+			<div class="buchongziliao">
+				<div class="triangle shang buchongshang"></div>
+				<div style="margin-top:20px;margin-left:20px">
+					<div
+						style="margin-bottom:10px;font-size:16px;color:black;font-weight: bolder;">选择头像</div>
+					<div style="color:black;">拍了张好看的自拍？现在就上传吧。</div>
+					<div style="margin-top:20px;margin-left:100px">
+						<button class='btn tiaoguo'>跳过</button>
+						<button class='btn btn-info' id="tianjiazhaopian">添加照片</button>
+					</div>
+				</div>
+			</div>
+			<!-- 简介 -->
+			<div class="buchongziliao">
+				<div class="triangle shang buchongshang"></div>
+				<div style="margin-top:10px;margin-left:20px">
+					<div
+						style="margin-bottom:5px;font-size:16px;color:black;font-weight: bolder;">介绍你自己</div>
+					<div style="color:black;">说说你是谁，你的兴趣是什么。</div>
+					<textarea
+						style="width:250px;margin:10px 0;border-radius: 5px;border:1px solid rgb(164, 217, 249) ;padding:5px"
+						placeholder="介绍你自己..." id="shangchuanabout"></textarea>
+					<div style="margin-top:20px;margin-left:130px;margin-bottom: 20px">
+						<button class='btn tiaoguo '>跳过</button>
+						<button class='btn btn-info' id="baocunjianjie">保存</button>
+					</div>
+				</div>
+			</div>
+			<!-- 出生日期 -->
+			<div class="buchongziliao">
+				<div class="triangle shang buchongshang"></div>
+				<div style="margin-top:10px;margin-left:20px">
+					<div
+						style="margin-bottom:5px;font-size:16px;color:black;font-weight: bolder;">添加你的生日</div>
+					<div style="color:black;">让推特和你一起庆祝。</div>
+					<div id="date" style="margin-top: 10px;">
+						<select name="year" id="year">
+							<option value="">年</option>
+						</select> <select name="month" id="month">
+							<option value="">月</option>
+						</select> <select id="days" class="day">
+							<option value="">日</option>
+						</select>
+					</div>
+					<div style="margin-top:20px;margin-left:130px;margin-bottom:20px ">
+						<button class='btn tiaoguo'>跳过</button>
+						<button class='btn btn-info' id="shangchuanshengri">保存</button>
+					</div>
+				</div>
+			</div>
+			<!-- 完成 -->
+			<div class="buchongziliao">
+				<div class="triangle shang buchongshang"></div>
+				<div style="margin-top:10px;margin-left:40px">
+
+					<div
+						style="margin-bottom:5px;font-size:16px;color:black;font-weight: bolder;">
+						<img style="width:48px;height:48px;margin-left: 70px;"
+							src="/img/1f4af.png" /> <span
+							style="margin-left: 100px;position: relative;top: -20px;cursor: pointer;"
+							id="guanbiwancheng">&times</span>
+					</div>
+
+					<div
+						style="color:black;font-size: 18px;font-weight: bold;margin-top:10px">棒极了-你已完善个人资料。</div>
+					<div style="color:black;font-size: 18px;font-weight: bold">你可以随时更改这些信息。</div>
+					<button class="btn btn-info"
+						style="margin-top:10px;margin-bottom:20px;margin-left:30px"
+						id="chakangerenziliao">查看我的个人资料</button>
+				</div>
+
+			</div>
+		</div>
+
+		<div id="second">
+			<form method="post" id="mytweet"
+				enctype="multipart/form-data">
+				<div id="send">
+					<div class="touxiang" id="user_tou"></div>
+					<div id="sends">
+						<div class="tweet" id="tuiwen1"
+							style=" border :5px solid rgb(164, 217, 249)">
+							<div id="editor"></div>
+							<textarea class="wen" name="tuiwen" id="tweet1"
+								placeholder="有什么新鲜事？"></textarea>
+							<div class="bq" id="bq1">
+								 <img src="img/Smile.png" width="16px" height="16px" />
+							</div>
+						</div>
+						<div class="thing">
+							<span class="glyphicon glyphicon-camera addThing" id="addpic"></span>
+<!--							<span class="glyphicon glyphicon-picture addThing"></span>-->
+<!--							<span class="glyphicon glyphicon-stats addThing "></span>-->
+							<span class="glyphicon glyphicon-map-marker addThing "></span>
+							<button class="button but btn btn-info" id="submit" type="button">
+								<span class="glyphicon glyphicon-send edit_lu"></span>
+								<span class="bian fa_lu" onclick="tijiao()">发文</span>
+							</button>
+						</div>
+						<div class="zishu">140</div>
+					</div>
+				</div>
+				<div class="triangle shang  ts" id="ts1"></div>
+				<!--				图片预览-->
+<!--				<div id="pics" style="z-index:10000">-->
+					<img src="imgPath"  id="showpic" alt=""/>
+<!--				<span class="btn btn-info" id="changepic">更换图片</span>-->
+<!--				</div>-->
+				<span id="picha" title="取消预览">&times;</span>
+				<input type="file" id="pic" accept="image/*" name="tpic" multiple>
+			</form>
+
+			<div id="tixing"></div>
+			<div id="reload">
+				<div id='content'></div>
+				<div id="page">
+
+					<ul>
+						<li class="page_li">
+							<button class="page_btn" style="width:100px" id="prePage">上一页</button>
+						</li>
+						<li class="page_li">
+							<button class="page_btn" id="page_btn1">1</button>
+						</li>
+						<li class="page_li">
+							<span class="pages_span" id="prePoint">...</span>
+						</li>
+						<li class="page_li">
+							<button class="page_btn" id="page_btn2"></button>
+						</li>
+						<li class="page_li">
+							<button class="page_btn" id="page_btn3"></button>
+						</li>
+						<li class="page_li">
+							<button class="page_btn" id="page_btn4"></button>
+						</li>
+						<li class="page_li">
+							<button class="page_btn" id="page_btn5"></button>
+						</li>
+						<li class="page_li">
+							<button class="page_btn" id="page_btn6"></button>
+						</li>
+						<li class="page_li">
+							<span class="pages_span" id="sufPoint">...</span>
+						</li>
+						<li class="page_li">
+							<button class="page_btn" id="page_btn7"></button>
+						</li>
+						<li class="page_li">
+							<button class="page_btn" style="width:100px" id="sufPage">下一页</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="jiazai">
+				<img src="img/loader.gif" />
+			</div>
+			<div id="back" style="margin-bottom: 30px;margin-top: 1px">
+				<img src="img/index.ico" /><br> <span
+					style="margin-left:256px;">返回顶层↑</span>
+			</div>
+		</div>
+		<!--弹出层-->
+
+		<div id="xiugailogo" class="reveal-modal"
+			style="width:580px;margin-left:-250px">
+			<div class="close-reveal-modal">&#215;</div>
+			<div class="containertwo">
+				<div class="imageBox">
+					<div class="thumbBox"></div>
+					<div class="spinner" style="display: none">Loading...</div>
+				</div>
+				<div class="action">
+					<div class="new-contentarea tc">
+						<a href="javascript:void(0)" class="upload-img"> <label
+							for="upload-file">选择图像</label>
+						</a> <input type="file" class="" name="upload-file" id="upload-file" />
+					</div>
+					<input type="button" id="btnCrop" class="Btnsty_peyton" value="确定">
+					<input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+">
+					<input type="button" id="btnZoomOut" class="Btnsty_peyton"
+						value="-">
+				</div>
+			</div>
+		</div>
+		<div id="myModal" class="reveal-modal">
+			<div class="close-reveal-modal">&#215;</div>
+			<div id="tanchu_touxiang">
+				<img src="/img/8_150610172935_9.jpg" />
+			</div>
+			<div id="nameandaite">
+				<div id="tanchu_name"></div>
+				<div id="tanchu_aite"></div>
+			</div>
+			<div id="tanchu_neirong"></div>
+			<div id="tanchu_time"></div>
+			<div id="tanchu_gongneng">
+				<ul>
+					<li>
+						<div class="glyphicon glyphicon-share-alt huifu">
+							<span class="huifuCount" style="margin-left:-11px;"></span>
+						</div>
+					</li>
+					<li>
+						<div class="glyphicon glyphicon-retweet zhuanfa">
+							<span class="zhuanfaCount" style="margin-left:-11px;"></span>
+						</div>
+					</li>
+					<li>
+						<div class="glyphicon glyphicon-heart zan"
+							style="margin-left: 10px;margin-right: 10px;">
+							<span class="dianzanCount" style="margin-left:-12px;"></span>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="huifuinput">
+				<div style="margin-left: 50px;padding-top: 10px;">
+					<div style="margin-bottom: 10px;margin-left: 60px;">
+						回复 <a id="huifumingzi" style="cursor: pointer;"></a>
+					</div>
+					<div id="huifuinput_touxiang">
+						<img th:src="@{/images/{email}/{ulogo}(email=${user.uemail},ulogo=${info.ulogo})}" alt="">
+					</div>
+					<textarea id="huifushuru" placeholder="发布你的回复"></textarea>
+					<input name="huifutid" class="idid" value="" type="hidden" /> <input
+						name="huifuuid" class="uuid" value="" type="hidden" />
+					<div style="margin-top: -15px">
+						<div id="dahuifuzishu"
+							style="position: relative;top:40px;left:380px;width:100px">140</div>
+						<button id="huifuanniu" class="btn btn-info">
+							<span class="glyphicon glyphicon-share-alt "
+								style="padding-right: 5px;font-size: 17px;position: relative;top: 3px;"></span>回复
+						</button>
+					</div>
+				</div>
+			</div>
+			<div id="huifu_neirong"
+				style="background-color: rgb(230,236,240);margin-left: -40px;width: 620px;">
+			</div>
+			<div id="lasttubiao">
+				<img style="margin-top: 26px;" src="img/index.ico" />
+			</div>
+		</div>
+
+		<div id="huifu" class="reveal-modal">
+			<div class="close-reveal-modal">&#215;</div>
+			<div id="huibiaoti" class="zhuanfabiaoti"></div>
+			<div class="zhuanfa_neirong">
+				<div class="zhuanfa_touxiang">
+<!--					<img src="img/8_150610172935_9.jpg" />-->
+					<img th:src="@{/images/{email}/{ulogo}(email=${user.uemail},ulogo=${info.ulogo})}">
+				</div>
+				<div class="zhuanfa_xiangqing" style="width: 500px;">
+					<div class="zhuanfa_name"></div>
+					<div class="zhuanfa_aite"></div>
+					<p style="float: left;">&nbsp;·&nbsp;</p>
+					<div class="zhuanfa_time"></div>
+				</div>
+				<div class="zhuanfa_xinxi"></div>
+			</div>
+			<div class="huifuinput"
+				style="margin-top:30px;margin-bottom: -40px;height: 180px;">
+				<div style="margin-left: 22px;padding-top: 10px;">
+					回复 <a id="huifumingzitwo" style="cursor: pointer;"></a>
+				</div>
+				<textarea id="tuichukuang2" style="margin-top: 10px;"
+					class="zhuanfashuru" placeholder="发布你的回复"></textarea>
+				<input name="huifutid" class="idid" value="" type="hidden" /> <input
+					name="huifuuid" class="uuid" value="" type="hidden" />
+				<div style="margin-top: -20px">
+					<div id="huifuzishu"
+						style="position: relative;top:40px;left:450px;width:100px">140</div>
+					<button id="huifuhuifu" class="btn btn-info zhuanfaanniu"
+						style="margin-left: 60px;">
+						<span class="glyphicon glyphicon-share-alt "
+							style="padding-right: 5px;font-size: 17px;position: relative;top: 3px;"></span>回复
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="zhuanfa" class="reveal-modal">
+			<div class="close-reveal-modal">&#215;</div>
+			<div class="zhuanfabiaoti">转推给你的关注者？</div>
+			<form id="zhuantuiform" action="" method="post"
+				enctype="multipart/form-data">
+				<div class="huifuinput" style="height: 120px;">
+					<textarea id="tuichukuang3" name="zhuanfaneirong"
+						class="zhuanfashuru" placeholder="添加评论..."></textarea>
+					<input name="zhuanfatid" class="idid" value="" type="hidden" /> <input
+						name="zhuanfauid" class="uuid" value="" type="hidden" />
+				</div>
+				<div class="zhuanfa_neirong">
+					<div class="zhuanfa_touxiang">
+						<img th:src="@{/images/{email}/{ulogo}(email=${user.uemail},ulogo=${info.ulogo})}">
+					</div>
+					<div class="zhuanfa_xiangqing" style="width: 500px;">
+						<div class="zhuanfa_name"></div>
+						<div class="zhuanfa_aite"></div>
+						<p style="float: left;">&nbsp;·&nbsp;</p>
+						<div class="zhuanfa_time"></div>
+					</div>
+					<div class="zhuanfa_xinxi"></div>
+					<div style="height: 10px;width: 100%"></div>
+					<div style="margin-top: -15px">
+						<div id="zhuantuizishu"
+							style="position: relative;top:40px;left:410px;right:10px;;width:30px;">140</div>
+						<button id="zhuantui" type="button"
+							class="btn btn-info zhuanfaanniu" style="left:450px;;">
+							<span class="glyphicon glyphicon-retweet"
+								style="padding-right: 5px;font-size: 17px;position: relative;top: 3px;"></span>转推
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div id="third">
+			<div id="tuijian">
+				<div class="guanzhu" style="color:black">
+					推荐关注<span style="font-size:13px;font-weight: normal;"> · <a
+						style="cursor: pointer;" id="shuaxintj">刷新</a>
+					</span>
+				</div>
+				<div id="addtuijian" style="padding-top:50px"></div>
+			</div>
+			<div id="link">
+				<ul id="lianjie">
+					<li>关于</li>
+					<li>帮助中心</li>
+					<li>博客</li>
+					<li>状态</li>
+					<li>工作机会</li>
+					<li>条款</li>
+					<li>隐私政策</li>
+					<li>Cookies</li>
+					<li>广告信息</li>
+					<li>商标</li>
+					<li>广告</li>
+					<li>企业</li>
+					<li>开发者</li>
+					<li>&copy;2017Twitter</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+<script th:inline="javascript">
+	var Nowuser=[[${user}]]
+	$(function () {
+		$("#touxiang").popover({
+			content : "修改个人信息和登出",
+			placement : 'bottom',
+			trigger : 'hover '
+		});
+		$(".listd:last").click(function() {
+			location = "/exit";
+		});
+		var currentPage = 1
+		sendPage(currentPage)
+		$("#addpic").click(function () {
+			$("#pic").click();
+		})
+		$("#changepic").click(function () {
+			$("#pic").click();
+		})
+		$("#pic").change(function () {
+			var objUrl = getObjectURL(this.files[0]);//获取文件信息
+			if (objUrl) {
+				$("#showpic").attr("src", objUrl);
+			}
+		})
+		$("#page_btn1").click(function () {
+			currentPage = $("#page_btn1").text()
+			sendPage(currentPage)
+		})
+		$("#page_btn2").click(function () {
+			currentPage = $("#page_btn2").text()
+			sendPage(currentPage)
+		})
+		$("#page_btn3").click(function () {
+			currentPage = $("#page_btn3").text()
+			sendPage(currentPage)
+		})
+		$("#prePage").click(function () {
+			currentPage = Number(currentPage) - 1
+			if (currentPage > 0) {
+				sendPage(currentPage)
+			} else {
+				currentPage = 1
+			}
+		})
+		$("#page_btn5").click(function () {
+			currentPage = $("#page_btn5").text()
+			sendPage(currentPage)
+		})
+		$("#sufPage").click(function () {
+			currentPage = Number(currentPage) + 1
+			if (currentPage > 0) {
+				sendPage(currentPage)
+			} else {
+				currentPage = 1
+			}
+		})
+		$("#page_btn6").click(function () {
+			currentPage = $("#page_btn6").text()
+			sendPage(currentPage)
+		})
+		$("#page_btn7").click(function () {
+			currentPage = $("#page_btn7").text()
+			sendPage(currentPage)
+		})
+		$("#touxiang").click(function() {
+			$("#list").fadeToggle(10);
+		});
+	})
+
+
+		function getObjectURL(file) {
+			var url = null;
+			if (window.createObjectURL != undefined) {
+				url = window.createObjectURL(file);
+			} else if (window.URL != undefined) { // mozilla(firefox)
+				url = window.URL.createObjectURL(file);
+			} else if (window.webkitURL != undefined) { // webkit or chrome
+				url = window.webkitURL.createObjectURL(file);
+			}
+			return url;
+		}
+
+		function tijiao() {
+			console.log("上传测试")
+			var data = new FormData(document.getElementById("mytweet"))
+			$.ajax({
+				url: "addBlog",
+				type: "post",
+				processData: false,
+				data: data,
+				contentType: false,
+				success: function (data) {
+					alert("上传呈贡")
+				}
+			})
+			for (var value of data.values()) {
+				console.log(value);
+			}
+		}
+
+		function sendPage(currentPage) {
+			var pageSize = 4
+			$("#content").val("")
+			$.ajax({
+				url: "getBlogAll",
+				type: "post",
+				data: {"pageNum": currentPage, "pageSize": pageSize},
+				// dataType:Object,
+				success: function (data) {
+					var html = addTweet(data.list)
+					addPageNum(data.navigatePages / pageSize, currentPage)
+					console.log(data.pageNum)
+					$("#content").append(html);
+					// alert("显示呈贡")
+
+					console.log(data)
+				}
+			})
+		}
+
+		function addTweet(tweets) {
+			if ($("#content").html() != "") {
+				$("#content").html("")
+			}
+			var html = "";
+			for (var i = 0; i < tweets.length; i++) {
+				if (tweets[i].tcontent == "" && tweets[i].tpic == null && tweets[i].tzhaun == 0) {
+					continue;
+				} else {
+					// //推文
+					// html += '<div><div class="tuiwen" ><div class="neirong  big-link"  data-reveal-id="myModal" data-animation="fade" onclick="getAllContent(this)">'
+					// 		+tweets[i].bcontent+'';
+					//
+					// 		html+='</div></div>'
+					html += '<div><div class="tuiwen" ><div onmouseover="tianZiLiaoKa(this)" onmouseout="removeZiLiaoKa(this)" class="sender_tou_xiang" style="z-index:1;'
+							+ 'background:url(\'' + '/images/' + tweets[i].email + '/' + tweets[i].ulogo + '\');'
+							+ 'background-size: 60px 60px;"></div><div class="sender_info"><div onmouseover="nameTianZiLiao(this)" onmouseout="removeZiLiaoKatwo(this)" class="sender_name" style="z-index:99;font-weight: bold;">'
+							+ tweets[i].username + '</div>' +
+							'<div class="sender_aite">' + tweets[i].email + '</div>' +
+							'<span style="float:left;margin-right:5px">·</span><div class="sender_time">'
+							+ tweets[i].btime + '</div><span class=" glyphicon glyphicon-chevron-down tuiwencha"></span><div class="deltuiwen">删除推文</div><input class="idid" type="hidden" value="'
+							+ tweets[i].tid + '"/><input class="uuid" type="hidden" value="'
+							+ tweets[i].uid + '"/><div class="neirong  big-link"  data-reveal-id="myModal" data-animation="fade" onclick="getAllContent(this)">'
+							+ tweets[i].bcontent + '';
+					if (tweets[i].bzhuan > 0) {
+						if (tweets[i].bcontent == "" && tweets[i].bpic == null) {
+							html += '<div class="tzhuan"style="width: 500px;height: auto;min-height: 50px ;border: 1px solid lightgray;padding:10px 20px 10px 15px;	margin: 10px 0  ;border-radius: 5px; cursor: pointer;">';
+							html += '<div class="sender_name" style="font-weight: bold;">' + tweets[i].username + '</div><div class="sender_aite">'
+									+ '@' + tweets[i].username + '</div><div class="sender_time"></div><div class="neirong" style="color:red"><img src=\'img/error.png\' style="margin-top:-2px">'
+									+ '该推文已被删除！' + '</div>';
+
+							html += '</div>'
+						} else {
+							html += '<div class="tzhuan"style="width: 500px;height: auto;min-height: 50px ;border: 1px solid lightgray;padding:10px 20px 10px 15px;	margin: 10px 0  ;border-radius: 5px; ">';
+							html += '<div class="sender_name" style="font-weight: bold;">' + tweets[i].username + '</div><div class="sender_aite">'
+									+ '@' + tweets[i].username + '</div><div class="sender_time"></div><div class="neirong" style="width:475px">'
+									+ tweets[i].bcontent;
+
+
+							if (tweets[i].bpic != null) {
+								html += '<a style="margin-left:10px;z-index:9999" target="view_window" href="'
+										+ '.' + '/images/' + tweets[i].username + '/' + tweets[i].bpic + '" >图片</a>';
+							}
+							html += '</div></div>'
+						}
+
+					}
+					html += '</div>';
+					if (tweets[i].bpic != "") {
+						html += '<div class="sender_pic"><img src="'
+								+ '/images/' + tweets[i].email + '/' + tweets[i].bpic + '" /></div>';
+						console.log('/images/' + tweets[i].email + '/' + tweets[i].bpic);
+						// http://localhost:8080/images/8989842@1221/default_profile_normal.png
+						// http://localhost:8080/images/123@qq.com/default_profile_normal.png
+					}
+
+
+					html += '<div class="sender_gongneng"><ul><li><div title="回复" class="glyphicon glyphicon-share-alt huifu  big-link"  data-reveal-id="huifu" data-animation="fade"><span class="huifuCount" style="margin-left:10px;"> ';
+
+					if(tweets[i].breply !=""){
+						html+=tweets[i].breply;
+					}
+					html+='</span></div></li><li>'	;
+					if(tweets[i].zhuaned == 1){
+						html+='<div title="转发" class="glyphicon glyphicon-retweet zhuanfa" style="color:rgb(23, 191, 99)"><span class="zhuanfaCount" style="margin-left:13px;color:rgb(23, 191, 99)">';
+						if(tweets[i].bforward > 0){
+							html+=tweets[i].tforward;
+						}
+						html+='</span></div>';
+					}
+					if(tweets[i].zhuaned == 0){
+						html+='<div title="转发" class="glyphicon glyphicon-retweet zhuanfa  big-link"  data-reveal-id="zhuanfa" data-animation="fade"><span class="zhuanfaCount" style="margin-left:13px;">';
+						if(tweets[i].bforward > 0){
+							html+=tweets[i].tforward;
+						}
+						html+='</span></div>'
+					}
+					html+='</li><li>';
+					if(tweets[i].liked == 1){
+						html+='<div title="点赞"  id="zanzan"  onclick="dianzanla(this)" class="glyphicon glyphicon-heart zan" style="color:rgb(226, 38, 77);"><span class="dianzanCount" style="color:rgb(226, 38, 77);margin-left:10px;">';
+						if(tweets[i].tlike> 0){
+							html+=tweets[i].blike;
+						}
+						html+='</span></div>';
+					}
+					if(tweets[i].liked == 0){
+						html+='<div  title="点赞" id="zanzan" onclick="dianzanla(this)"  class="glyphicon glyphicon-heart zan" style="color:gray;"><span class="dianzanCount" style="margin-left:10px;">';
+						if(tweets[i].blike> 0){
+							html+=tweets[i].blike;
+						}
+						html+='</span></div>';
+					}
+					html += '</li></ul></div></div></div></div>';
+
+				}
+
+			}
+			return html;
+		}
+		function dianzanla(button){
+			// var tid = $("#").parent().parent().parent().parent().find(".idid").val();
+			// var uid = $(this).parent().parent().parent().parent().find(".uuid").val();
+			var tid = $(button).parent().parent().parent().parent().find(".idid").val();
+			// var uid = $(button).parent().parent().parent().parent().find(".uuid").val();
+			var uid=Nowuser.uid
+			if ($(button).css("color") == "rgb(226, 38, 77)") {
+				updateLikes(tid, uid, "del");
+				$(button).css("color", "#657786");
+				$(button).find(".dianzanCount").css("color", "#657786");
+				zanCount = $(button).find(".dianzanCount").html();
+				if (zanCount < 2) {
+					$(button).find(".dianzanCount").html("");
+				} else {
+					$(button).find(".dianzanCount").html(zanCount * 1 - 1);
+				}
+				return;
+			}else {
+				updateLikes(tid, uid, "add");
+				zanCount = $(button).find(".dianzanCount").html();
+				if (zanCount == "") {
+					$(button).find(".dianzanCount").html(1);
+				} else {
+					$(button).find(".dianzanCount").html(zanCount * 1 + 1);
+				}
+				$(button).animate({
+					color : 'rgb(226, 38, 77)'
+				}, 500);
+				$(button).find(".dianzanCount").animate({
+					color : 'rgb(226, 38, 77)'
+				}, 500);
+			}
+			console.log("tid"+tid)
+			console.log("uid"+uid)
+		}
+	function updateLikes(tid, uid,method) {
+		$.ajax({
+			type : "POST",
+			url : "/updateLike?method=" + method + "&tid=" + tid+"&uid="+uid,
+			success : function(data) {
+
+			}
+		});
+	}
+		function addPageNum(pageNum, currentPage) {
+			console.log(currentPage)
+			$("#page_btn2").text(Number(currentPage)-2);
+			$("#page_btn3").text(Number(currentPage)-1);
+			$("#page_btn4").text(Number(currentPage));
+			$("#page_btn5").text(Number(currentPage)+1);
+			$("#page_btn6").text(Number(currentPage)+2);
+			$("#page_btn7").text(pageNum);
+			$(".page_btn").show()
+			$("#page_btn2").hide();
+			$("#page_btn6").hide()
+			$("#page_btn4").css("background-color", "#4f90fb");
+			$("#page_btn4").css("border", "1px solid #ddd");
+			$("#page_btn4").css("color", "#fff");
+
+
+			if (currentPage == 1) {
+				$("#prePage").hide();
+
+			}
+
+			if (currentPage == pageNum) {
+				$("#sufPage").hide();
+			}
+
+
+			if (currentPage <= 3) {
+				$("#prePoint").hide();
+				$("#page_btn1").hide();
+			} else if (currentPage == 4) {
+				$("#prePoint").hide();
+			}
+
+			if (currentPage == 1) {
+				$("#page_btn2").hide();
+				$("#page_btn3").hide();
+			} else if (currentPage == 2) {
+				$("#page_btn2").hide();
+			}
+
+			if (currentPage >= pageNum - 2) {
+				$("#sufPoint").hide();
+				$("#page_btn7").hide();
+			} else if (currentPage == pageNum - 3) {
+				$("#sufPoint").hide();
+			}
+
+			if (currentPage == pageNum) {
+				$("#page_btn5").hide();
+				$("#page_btn6").hide();
+			}
+
+			if (currentPage == pageNum - 1) {
+				$("#page_btn6").hide();
+			}
+		}
+
+		function getPageNum(currentPage) {
+
+			$("#page_btn1").click(function () {
+				currentPage = $("#page_btn1").text()
+			})
+			$("#page_btn2").click(function () {
+				currentPage = currentPage - 2
+			})
+			$("#page_btn3").click(function () {
+				currentPage = currentPage - 1
+			})
+			$("#prePage").click(function () {
+				currentPage = currentPage - 1
+			})
+			$("#page_btn5").click(function () {
+				currentPage = currentPage + 1
+			})
+			$("#sufPage").click(function () {
+				currentPage = currentPage + 1
+			})
+			$("#page_btn6").click(function () {
+				currentPage = currentPage + 2
+			})
+			return currentPage;
+			console.log(currentPage)
+		}
+	// function jiaZai() {
+	// 	if( $("#back").css("display") == "none"){
+	// 		$('#jiazai img').fadeIn();
+	// 		var url = 'getBlogAll';
+	// 		$.ajax({
+	// 			url : url,
+	// 			type : 'POST',
+	// 			success : function(response, status) {
+	// 				var num = response.length;
+	// 				$("#jiazai img").fadeOut();
+	// 				if(num <10){
+	// 					tuiwenshu =  $(".tuiwen").length;
+	// 					$("#jiazai img").hide();
+	// 					$("#back").show();
+	// 					return;
+	// 				}
+	// 				var tweets =$.parseJSON( response.substring(response.indexOf("["), response.length) );
+	// 				var html = addTweet(tweets);
+	// 				$("#content").append(html);
+	// 				tweetsJs();
+	// 			}
+	// 		});
+	// 	}
+	// };
+	// function tweetsJs(){
+	// 	$(".guanzhuta").on({
+	// 		mouseover : function() {
+	// 			if ($(this).html() == '关注') {
+	// 				var yanse = color.substring(0, color.indexOf("1.00"));
+	// 				$(this).css("backgroundColor", yanse + "0.1)");
+	// 			}
+	// 			if ($(this).html() == '正在关注') {
+	// 				$(this).html("取消关注");
+	// 				$(this).css("backgroundColor", "rgba(172,0,43,1.00)");
+	// 			}
+	// 		},
+	// 		mouseout : function() {
+	// 			if ($(this).html() == '关注'){
+	// 				$(this).css("backgroundColor", "white");
+	// 			}
+	// 			if ($(this).html() == '取消关注') {
+	// 				$(this).css("backgroundColor", color);
+	// 				$(this).html("正在关注");
+	// 				$(this).css("color", "white");
+	// 				$(this).css("border", "0px solid red");
+	// 			}
+	// 		}
+	// 	});
+</script>
+<script th:inline="javascript">
+	var info =[[${info}]]
+	var user=[[${user}]]
+	$(function (){
+		if(info.ulogo == 'default_profile_normal.png'){
+			$(".buchongziliao:eq(0)").show();
+			return;
+		}
+		if(info.uabout == null){
+			$(".buchongziliao:eq(1)").show();
+			return;
+		}
+		if(info.udate == null){
+			$(".buchongziliao:eq(2)").show();
+			return;
+		}
+
+	});
+	$(".tiaoguo:eq(0)").click(function() {
+		$(this).parent().parent().parent().hide();
+		if(info.uabout == ""){
+			$(".buchongziliao:eq(1)").show();
+			return;
+		}
+		if(info.udate == ""){
+			$(".buchongziliao:eq(2)").show();
+			return;
+		}
+	});
+	$(".tiaoguo:eq(1)").click(function() {
+		$(this).parent().parent().parent().hide();
+		if(info.udate == null){
+			$(".buchongziliao:eq(2)").show();
+		}
+	});
+	$(".tiaoguo:eq(2)").click(function() {
+		$(this).parent().parent().parent().hide();
+		if(info.ulogo != 'default_profile_normal.png' && info.uabout != null && info.udate != null){
+			$(".buchongziliao:eq(3)").show();
+		}
+	});
+	$("#tianjiazhaopian").click(function() {
+		$("#user_tou_xiang").click();
+	});
+	$(function() {
+		$("#date").selectDate();
+		$("#days").focusout(function() {
+			var year = $("#year option:selected").html()
+			var month = $("#month option:selected").html()
+			var day = $("#days option:selected").html()
+			console.log(year + month + day)
+		})
+	})
+	$("#shangchuanshengri").click(function() {
+		var year = $("#year option:selected").html()
+		var month = $("#month option:selected").html()
+		var day = $("#days option:selected").html()
+		if (year == "年") {
+			$("#tongzhi").html("请选择年份！").fadeIn(300).delay(500).fadeOut(300);
+			return;
+		}
+		if (month == "月") {
+			$("#tongzhi").html("请选择月份！").fadeIn(300).delay(500).fadeOut(300);
+			return;
+		}
+		if (day == "日") {
+			$("#tongzhi").html("请选择日期！").fadeIn(300).delay(500).fadeOut(300);
+			return;
+		}
+		if (year != "年" && month != "月" && day != "日") {
+			xiugaishengri(year + month + day);
+		}
+	});
+
+	function xiugaishengri(data) {
+		$.ajax({
+			url : '/updateBrithday',
+			type : 'POST',
+			data : {
+				date : data,
+				uid:info.uid
+			},
+			success : function(response, status) {
+				if(response =="ok"){
+					$(".buchongziliao:eq(2)").hide();
+					$("#tongzhi").html("修改信息成功！").fadeIn(300).delay(500).fadeOut(300);
+					gengxininfo("two");
+				}
+			}
+		});
+	}
+
+	function gengxininfo(data) {
+		$.ajax({
+			url : '/mytwitter/user.do?method=gengxininfo&neirong='+data,
+			type : 'POST',
+			success : function(response, status) {
+				if(response == 'ok'){
+					$(".buchongziliao:eq(3)").show();
+				}
+			}
+		});
+	}
+
+	$("#baocunjianjie").click(function() {
+		var jianjie = $("#shangchuanabout").val().trim();
+		if(jianjie == ""){
+			$("#tongzhi").html("请输入介绍！").fadeIn(300).delay(500).fadeOut(300);
+			return;
+		}
+		xiugaijianjie(jianjie);
+	});
+	function xiugaijianjie(data) {
+		$.ajax({
+			url : '/updateAbout',
+			type : 'POST',
+			data : {
+				about : data,
+				uid:info.uid
+			},
+			success : function(response, status) {
+				if(response =="ok"){
+					$(".buchongziliao:eq(1)").hide();
+					$("#tongzhi").html("修改信息成功！").fadeIn(300).delay(500).fadeOut(300);
+					if(info.udate == ""){
+						$(".buchongziliao:eq(2)").show();
+					}
+				}
+			}
+		});
+	}
+	$("#user_tou_xiang").click(function(){
+		$("#xiugaitouxiang").show();
+		$("#xiugaishang").show();
+	});
+	$("#xiugaitouxiang div").on({
+		mouseover:function(){
+			$(this).css("backgroundColor","white");
+			$(this).css("color","white");
+		},
+		mouseout:function(){
+			$(this).css("backgroundColor","white");
+			$(this).css("color","black");
+		}
+	});
+	$("#quxiaoxiugai").click(function(){
+		$("#xiugaitouxiang").hide();
+		$("#xiugaishang").hide();
+	});
+	$(function() {
+		var options = {
+			thumbBox : '.thumbBox',
+			spinner : '.spinner',
+			imgSrc : 'img/avatar.jpg'
+		}
+
+		for(index in options){
+			console.log(options[index])
+		}
+		var cropper= $('.imageBox').cropbox(options);
+		var fileName;
+		$('#upload-file').on('change', function() {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				options.imgSrc = e.target.result,
+				cropper = $('.imageBox').cropbox(options);
+			}
+			reader.readAsDataURL(this.files[0]);
+			fileName=this.files[0].name
+			this.files = [];
+		})
+		$('#btnCrop').on('click', function() {
+			var img = cropper.getDataURL();
+			console.log(fileName)
+			var file = dataURLtoFile(img,fileName);//将base64图片转化为file文件方法
+			var formData=new FormData()
+			formData.append("file",file)
+			console.log(formData.file)
+			$.ajax({
+				url : '/updateUlogo',
+				data : formData,
+				dataType:'json',
+				processData: false, // 告诉jQuery不要去处理发送的数据
+				contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+				type : 'POST',
+				success : function(response) {
+					if (response == "ok") {
+						$("#xiugailogo").find(".close-reveal-modal").click();
+						$("#tongzhi").html("修改头像成功！").fadeIn(300).delay(500).fadeOut(300);
+						$("#user_tou_xiang").css("background", "url(" + img + ")");
+						$("#user_tou_xiang").css("backgroundSize", "80px 80px");
+						$("#user_tou_xiang img").hide();
+						$("#user_tou").css("background", "url(" + img + ")");
+						$("#user_tou").css("backgroundSize", "31px 31px");
+						$("#touxiang").css("background", "url(" + img + ")");
+						$("#touxiang").css("backgroundSize", "31px 31px");
+						$(".buchongziliao:eq(0)").hide();
+						if(info.uabout == null){
+							$(".buchongziliao:eq(1)").show();
+							return;
+						}else if(info.udate == null){
+							$(".buchongziliao:eq(2)").show();
+							return;
+						}else{
+							$(".buchongziliao:eq(3)").show();
+							return;
+						}
+					}
+				}
+			});
+fileName="";
+		})
+		$('#btnZoomIn').on('click', function() {
+			cropper.zoomIn();
+		})
+		$('#btnZoomOut').on('click', function() {
+			cropper.zoomOut();
+		})
+		var touxiang = "/images/"+user.uemail+"/"+info.ulogo;
+
+		$(".touxiang").css("background", "url(" + touxiang + ")");
+		$(".touxiang").css("backgroundSize", "31px 31px");
+		$("#user_tou_xiang").css("backgroundSize", "80px 80px");
+		if($("#user_tou_xiang img").css("display") == "inline"){
+			$("#user_tou_xiang").css("background", "white");
+		}
+	});
+
+	function dataURLtoFile(dataurl, filename) {
+		var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+				bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+		return new File([u8arr], filename, {type: mime});
+	}
+	$("#xiugailogo").find(".close-reveal-modal").click(function() {
+		$('#upload-file').val("");
+		$(".imageBox").css("backgroundImage", "url('')");
+		$(".spinner").show();
+	});
+	// $("#search_two").bind("input change", function() {
+	//
+	// 	var name = $(this).val().trim();
+	// 	if ($(this).val().trim() == "") {
+	// 		$("#souxianshi").hide();
+	// 		$("#souxianshishang").hide();
+	// 	}
+	// 	var url = '/mytwitter/user.do?method=chayonghu';
+	// 	if ($(this).val().trim() != "") {
+	// 		$.ajax({
+	// 			url : url,
+	// 			data : {
+	// 				"name" : name
+	// 			},
+	// 			type : 'POST',
+	// 			success : function(response, status) {
+	// 				$("#souxianshi").html("");
+	// 				$("#souxianshi").show();
+	// 				$("#souxianshishang").show();
+	// 				if (response == "kong") {
+	// 					var html = '<div class="souneirong"><span style="margin-left:20px;font-size:15px;">没有与<b><span style="margin:0 3px;">' + name + '</span></b>相关用户！</span></div>';
+	// 					$("#souxianshi").append(html);
+	// 					return;
+	// 				}
+	// 				var length = response.length;
+	// 				var users = $.parseJSON(response.substring(response.indexOf("["), response.length));
+	// 				var html = "";
+	// 				for (var i = 0; i < users.length; i++) {
+	// 					html += '<div class="souneirong" onclick="chaxunuser(0,this)"><div class="soutouxiang"><img src="'
+	// 							+ mytwitter + '/img/' + users[i].uname + "/" + users[i].ulogo + '" /></div><div class="soumingzi">'
+	// 							+ users[i].urealname + '</div><div class="sousouaite">@' + users[i].uaite + '</div><input class="uid" type="hidden" value="'
+	// 							+ users[i].uid + '"/></div>';
+	// 				}
+	// 				html += '<div class="souneirong" onclick="chaxunuser(1,this)"><span style="margin-left:20px;font-size:15px">搜索与<span style="margin:0 3px"><b>' + name + '</b></span>相关的所有用户</span></div>';
+	// 				$("#souxianshi").append(html);
+	// 				$(".souneirong").on({
+	// 					mouseover : function() {
+	// 						$(this).css("backgroundColor", color);
+	// 					},
+	// 					mouseout : function() {
+	// 						$(this).css("backgroundColor", "white");
+	// 					}
+	// 				});
+	// 			}
+	// 		});
+	// 	}
+	// });
+	// function chaxunuser(num, user) {
+	// 	if (num == 1) {
+	// 		var word = $(user).find("b").html().trim();
+	// 		location = "search.jsp?word="+word;
+	// 		return;
+	// 	}
+	// 	var uid = $(user).find(".uid").val();
+	// 	var urealname = $(user).find(".soumingzi").html().trim();
+	// 	if (uid ==  ${user.uid}) {
+	// 		location="selfdetail.jsp";
+	// 		return;
+	// 	}
+	// 	location = "user.do?method=iswho&who=" + urealname + "&id=" + uid;
+	// }
+	$("#tixing").on({mouseover:function(){
+			$(this).css("backgroundColor","rgb(230,236,240)");
+		},
+		mouseout:function(){
+			$(this).css("backgroundColor","rgb(245,248,250)");
+		}
+	});
+</script>
+</html>

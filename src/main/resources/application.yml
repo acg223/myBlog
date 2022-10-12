@@ -1,0 +1,30 @@
+#spring:
+#  mvc:
+#    static-path-pattern: /res/**
+#
+
+spring:
+  datasource:
+    password:
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=UTF-8
+#    &useSSL=false&useTimezone=true&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  thymeleaf:
+    mode: LEGACYHTML5
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+mybatis:
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+mybatis-plus:
+  mapper-locations: mybatis/mapper/*.xml
+#  mapper-locations: mybatis/mapper/*.xml
